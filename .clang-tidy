@@ -1,0 +1,15 @@
+Checks: >
+  -*,                        # 先禁用所有
+  bugprone-*,                # 启用 bugprone 系列
+  modernize-*,               # 启用 modernize 系列
+  readability-*,             # 启用可读性检查
+  performance-*              # 启用性能相关
+
+WarningsAsErrors:            # 把这些警告当作错误
+  - modernize-use-nullptr
+
+CheckOptions:                # 各检查项的详细参数
+  - key:             modernize-use-nullptr.NullMacros
+    value:           'NULL'
+  - key:             readability-identifier-naming.VariableCase
+    value:           lower_case
