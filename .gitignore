@@ -10,6 +10,9 @@ input/*.yaml
 .vscode/
 compile_commands.json
 
+# Other
+.vscode/
+
 # 忽略目录
 build/
 devel/
@@ -39,26 +42,23 @@ testCoreDump/
 temp*
 a.out
 *.db
-*.txt
-*.py
+# *.txt
+# *.py
 *.so
 *.a
 *.o
 *.out
 *.exe
 *.dll
-*.hpp
-*.cpp
 *.msg
-*.sh
+# *.sh
 *.csv
 *.bag
 *.vsix
-*.json
+# *.json
 *.h265
 *.html
 *.zip
-*.cpp
 *.jpg
 *.jpeg
 *.mcap
@@ -68,5 +68,3 @@ a.out
 *.proto
 *.cc
 
-# Other
-.vscode/

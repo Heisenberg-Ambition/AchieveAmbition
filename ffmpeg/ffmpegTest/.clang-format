@@ -51,6 +51,9 @@ AlignAfterOpenBracket: DontAlign
 # 对齐结构体数组
 AlignArrayOfStructures: Left
 
+# # 数组/Json是否换行
+# BreakArrays: true
+
 # 对齐连续赋值
 AlignConsecutiveAssignments: 
     Enabled: false
@@ -78,7 +81,7 @@ AlignConsecutiveMacros:
 # 对齐转义换行符
 # AlignEscapedNewlines: false 
 
-# Tab使用仅缩进使用Tab，对齐使用空格
+# Tab使用仅缩进使用Tab, 对齐使用空格
 UseTab: Never
 
 # 竖直对齐表达式的操作数
@@ -134,7 +137,7 @@ BinPackArguments: true
 # 函数定义参数(Parameters)是否放置于一行, 同BinPackArguments
 BinPackParameters: true
 
-# :符号空格风格 unsigned bf: 2;
+# 符号空格风格 unsigned bf: 2;
 BitFieldColonSpacing: After
 
 # 大括号换行风格

@@ -1,0 +1,489 @@
+
+编译:
+
+g++ test.cpp -o combine \
+  $(pkg-config --cflags --libs libavformat libavcodec libavfilter libavutil libswscale)
+
+  mkdir build && cd build
+
+  cd build && cmake ..  -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug && make && cp video_parser ../  && cd ..
+
+  cd .. && ./video_parser resource/a.mp4
+
+  make && cp video_parser ../
+  
+  冗余输出打印: 
+    make VERBOSE=1
+
+  .build/video_parser <input>
+
+  压缩: tar -czvf archive.tar.gz <folder>
+  解压: tar -xzvf archive.tar.gz
+
+sudo apt install libssl-dev
+
+openssl version
+
+dpkg -l | grep libssl-dev
+
+note: 
+  对离线文件来说, FFmpeg 的第一性原理是：“我先不相信你，先看看你长什么样. ”
+
+API	解决的问题:
+  avformat_open_input: open_input	你是不是一个合法的媒体容器？
+  avformat_find_stream_info: find_stream_info	你里面到底有哪些流？参数靠谱吗？, ≠ 读个 header
+  av_dump_format: dump_format	我到底长什么样？
+  avcodec_find_decoder: find_decoder 我到底用什么解码器(视频/音频, 具体的哪一个?)？
+  avcodec_alloc_context3: alloc_context3	我到底需要一个什么样的解码器上下文？
+  avcodec_parameters_to_context: parameters_to_context	我到底需要一个什么样的解码器上下文？
+  avcodec_open2: open2	把解码器和解码器上下文关联起来
+  av_read_frame: 从容器接收一个容器包（packet）
+  avcodec_send_packet: send_packet	把容器包发送给解码器
+  avcodec_receive_frame: receive_frame	尝试从解码器接收一个帧（frame）
+  av_packet_unref: unref 解除容器包的引用计数, 释放内部 data buffer, 让pkt回到“干净状态”, 但不释放pkt结构体本身.
+  av_frame_unref: unref 解除帧数据的引用计数, 释放帧数据的内存
+  av_packet_alloc: 申请一个AVPacket*, 相当于买了一个容器
+  avcodec_receive_packet: 往容器里装数据
+  av_packet_free: 释放AVPacket*结构体和帧数据的内存 把容器也扔掉, 彻底不用这个pkt时调用, 和 av_packet_alloc 对应.
+  av_frame_free: 释放AVFrame*结构体和帧数据的内存.
+  av_frame_alloc: 申请一个AVFrame*, 相当于买了一个帧容器
+
+av_packet_unref() 是幂等的(idempotent), 如果 packet 已经是“空状态”, 再unref 一次什么都不会发生, 它内部会检查引用计数是否存在。
+
+类型:
+  AVFormatContext 是“容器宇宙本身”
+  AVCodec* codec: 解码器
+  AVCodecContext* codec_ctx: 解码器上下文
+  AVCodecParameters	容器里声明的参数（what it claims）
+  AVCodecContext	解码器的工作状态（how we decode）
+  av_packet_alloc: 容器包数据
+  av_frame_alloc: 帧数据
+
+AVFormatContext:
+  1. 它不是“文件句柄”，而是：
+  2. 容器格式（mp4 / mkv / ts）
+  3. 流列表（streams）
+  4. 时间基（time_base）
+  5. 索引信息
+
+avformat_find_stream_info: find_stream_info
+  它可能会：
+    ≠ 读个 header
+    顺序读取前几百 KB
+    解码关键帧
+    猜测时间戳
+    修正 codec 参数
+av_dump_format 是“X 光机”:
+  它会把 FFmpeg 内部理解到的世界完整打印出来，
+  比 ffprobe 还接近真实状态。
+
+libavcodec	编解码
+libavformat	容器
+libswscale	像素格式转换
+libswresample	音频转换
+
+Q: 为什么在avcodec_parameters_to_context(codec_ctx, video_stream->codecpar);  
+把声明参数”拷贝进去后, 还需要在avcodec_open2()时传入AVCodec* , 我们可以继续send_packet和receive_frame
+A: 一、一句话先定性（给大脑一个锚）⚓
+  AVCodecParameters 只告诉你“这是什么”；
+  AVCodec 才决定“谁来干活、怎么干”。
+  二、三种结构体，各自到底负责什么？🧩
+  AVCodecParameters ——【容器的声明】
+  它来自 mp4 文件本身，本质是：
+    “我里面这条流宣称自己是 H.264，宽 1920，高 1080。”
+    它是 被动信息，不包含任何“行为”。
+      📌 没有函数指针 
+      📌 没有缓冲区
+      📌 没有解码算法
+  三、 AVCodecContext ——【工作台 + 状态机】
+    你用 avcodec_alloc_context3() 创建的，是一个尚未激活的解码器实例。
+    此时它：
+      有一堆空字段
+      没有绑定具体实现
+      没有内部私有数据（priv_data == nullptr）
+    当你调用：
+      avcodec_parameters_to_context(codec_ctx, codecpar);
+      你只是把这些声明参数“抄到工作台上”。
+      类比：
+        你把“这是一台 220V 洗衣机”的铭牌贴到了插座旁边。
+        但你还没插电，更没装电机。
+    AVCodec ——【真正的“解码器实现”】【灵魂】👻
+      AVCodec 是什么？
+      它是 一个静态的、全局的、算法实现对象，里面有： 
+        函数指针（decode / flush / close）
+        支持的像素格式
+        能力标志（是否支持 B 帧、硬解等）
+        私有 context 的大小
+  avcodec_open2(codec_ctx, codec, nullptr); :
+    “把这个 AVCodecContext，绑定到某一个具体的解码算法实现。”
+    这一步才是真正的“点火”。
+  为什么不能只靠 codecpar 自动推断？🤔
+    “既然 codecpar->codec_id 已经是 H264，
+    FFmpeg 自己找 decoder 不就好了？”
+  设计上 刻意不这么做，原因有三层。
+  🧠 1️⃣ 同一个 codec_id，可能有多个实现
+
+以 H.264 为例：
+软件解码（ff_h264）
+硬解：
+h264_cuvid
+h264_v4l2m2m
+h264_qsv
+
+它们：输入一样, 行为、性能、约束完全不同
+📌 FFmpeg 不替你做价值判断
+
+AVCodecContext 需要 codec 来“长出器官”
+  在 avcodec_open2() 内部，FFmpeg 会：
+  分配 codec_ctx->priv_data
+  初始化内部缓冲区
+  设置回调函数
+  建立 B 帧重排队列
+  这些都依赖 AVCodec 里的信息。
+  没有它，send_packet() 根本不知道往哪送。
+
+SDK / 工程层面需要“可控性”
+  你以后封 SDK 时，用户可能会：
+  指定软解 / 硬解
+  控制线程数
+  设置 low-delay 模式
+  这些全都发生在：
+  avcodec_open2() 之前
+而前提是：
+👉 你明确知道“用的是哪个 codec 实现”
+
+Q: send / receive 分离的物理原因
+A: 真正的原因：视频不是时间顺序编码的:
+  关键角色登场：I / P / B 帧
+  先别管代码，先想物理现实。
+  I 帧（独立）自给自足 可以立刻解码
+  P 帧（向前参考）依赖过去
+  B 帧（双向参考）依赖过去 + 未来
+🧨 问题来了：
+如果一个 B 帧需要“未来帧”，那它什么时候能被解码？
+答案是：
+👉 等未来帧先被读进来。
+三、packet 顺序 ≠ frame 显示顺序 🚦
+一个典型 GOP（解码顺序）可能是：
+I   P   B   B   P
+↓   ↓   ↓   ↓   ↓
+1   4   2   3   5   （显示顺序）
+
+所以在解码器内部发生的是：
+  packet 到来
+  被暂存
+  等参考帧齐了
+  才“释放”一帧
+👉 这就是 send / receive 分离的物理原因。
+每个 packet 都会立刻 produce frame 吗？
+不会。经常不会。
+三种常见情况：
+0 packet → 0 frame（最常见，尤其在开头）
+N packet → 1 frame
+1 packet → 多 frame（罕见，但合法）
+一、FFmpeg 的三层世界（一定要分清）🌍
+1️⃣ 容器层（Container / Demux）
+MP4 / MKV / TS
+关心的是：
+有哪些流
+数据块的顺序
+时间戳（DTS / PTS）
+2️⃣ 编码层（Codec）
+H.264 / H.265 / AV1
+关心的是：
+参考帧
+B 帧
+重排序
+3️⃣ 表示层（Frame）
+原始像素
+已经可以显示、处理
+
+av_read_frame()        → AVPacket
+avcodec_send_packet() → 送入解码器缓存
+avcodec_receive_frame() → AVFrame
+你可以把它想成：
+av_read_frame：考古挖土
+send_packet：送进实验室
+receive_frame：显微镜下的结果
+
+二、需要修正的第一点：
+❌ “一个 packet 不一定能解析到一个完整帧” —— 原因不只在 B/P 帧
+你现在的说法是：
+这取决于帧是 B 帧 / P 帧 / 参考帧
+这只覆盖了原因的一半。
+实际上有 两大类原因：
+🧩 原因 A：编码结构（I / P / B）→ 时间依赖
+这是你已经抓到的部分 ✔️
+B 帧需要未来参考
+解码器必须缓存 packet
+所以：packet 已送，但 frame 不能立刻输出
+这解释的是：
+“为什么 packet 到了，却暂时没有 frame”
+🧩 原因 B：packet 与 frame 在比特流层面就不是 1:1
+这是很多人第一次会忽略的地方 👀。
+在真实编码中：
+一个 frame 可能：
+跨多个 packet（网络 / TS 场景）
+一个 packet 可能：
+包含多个 frame（某些封装 + codec 组合）
+📌 也就是说，即便全是 I 帧：
+packet ≠ frame 仍然成立
+
+AVFrame解码后的原始帧属于第三层吗?
+是的——而且你现在的分层已经非常干净了 👍
+我们把它钉死，再顺手把几个常见的“半误解”一次性清掉。
+一、结论先行 🧠
+是的，AVFrame 里装的解码后数据，属于第三层：表示层（raw frame / sample 层）。
+这一点你可以非常放心地写进你的心智模型里。
+二、三层模型，再精确一次（工程版）🧩
+我们现在用的是一个对 FFmpeg 非常友好的三层划分：
+🧱 第一层：容器层（Container / Demux）
+代表对象
+AVFormatContext
+AVStream
+AVPacket
+关心的问题
+数据怎么装的？
+有哪些流？
+packet 顺序、DTS / PTS
+📌 不关心“画面长什么样”。
+⚙️ 第二层：编码层（Codec / Decode）
+代表对象
+AVCodec
+AVCodecContext
+关心的问题
+压缩格式
+参考帧
+B/P 帧
+内部缓存与重排序
+📌 不关心“最后怎么显示”。
+🖼️ 第三层：表示层（Raw frame / Sample）
+代表对象
+AVFrame
+关心的问题
+像素 / 采样数据
+宽高、格式（YUV420P、RGB）
+时间戳（PTS，已经是“可显示”的时间）
+📌 这里的数据已经是“物理画面”了。
+三、一个非常关键的“是，但要小心”⚠️
+你问的是：
+“AVFrame 解码后的原始帧属于第三层吗？”
+是的，但前提是：
+👉 这个 AVFrame 是从 avcodec_receive_frame() 来的
+为什么要加这个前提？
+因为 AVFrame 这个结构体本身是“多用途的”：
+解码输出帧 ✅（表示层）
+滤镜输入 / 输出帧
+编码器输入帧
+硬件帧（GPU memory）
+📌 层级不是由类型决定的，而是由“它此刻承载的语义”决定的。
+在我们现在这个阶段：
+avcodec_receive_frame(codec_ctx, frame);
+
+这条路径里：
+AVFrame = 表示层
+非常明确。
+四、为什么 AVFrame 不属于“编码层”？🤔
+这是一个容易混淆但值得澄清的点。
+编码层的本质是：
+压缩状态
+预测结构
+比特流解释
+而 AVFrame：
+不再包含预测关系
+不再包含宏块语义
+只有“结果像素”
+🧠 类比一下：
+编码层是在“解密压缩文件”
+表示层是“摊开一张完整的照片”
+五、对你未来 SDK 设计非常有用的一条线索 🧵
+你现在已经可以自然地画出这条“不可逆的单向箭头”：
+AVPacket  →  AVCodecContext  →  AVFrame
+（压缩）      （状态机）        （原始）
+
+📌 从右往左是回不去的。
+这对你后面：
+多路复用
+复用 decoder
+做缓存池
+做线程模型
+都会是核心约束。
+六、学习检查点（这个很重要）⏸️
+我只问一句，不需要术语：
+为什么 AVFrame 已经不能再叫“编码层数据”？
+
+那是不是编码层对我来说实际上不可见的? 处于一个中间结构, 我实际上不知道哪个是P帧哪个是I帧/B帧?
+基本判断：是的——对“正常使用者”来说，编码层大多是不可见的中间黑盒。
+但这里有一个非常重要的“是，但不完全是”，我们把边界画清楚 🧠✏️。
+一、从“你在做什么”这个角度回答 ✅
+在你现在这条路径里：
+av_read_frame → send_packet → receive_frame
+
+你的职责边界是：
+你喂 packet
+你拿 frame
+中间如何凑参考帧、如何重排序、什么时候释放一帧
+👉 全部交给 AVCodecContext
+所以在正确的工程心智模型里：
+编码层是一个“你不需要干预、也不应该依赖内部细节”的状态机。
+你不需要、也不应该写逻辑去判断：
+“这是 P 帧还是 B 帧？”
+“是不是参考帧？”
+“是不是关键帧之后才能显示？”
+这些都是编码层的内部因果关系。
+二、那我“真的完全不知道” I / P / B 吗？⚠️
+这里就是那条微妙但关键的分界线。
+1️⃣ 默认情况下：你确实不需要知道
+对于以下场景：
+正常解码播放
+离线分析
+转码
+SDK 提供“帧回调”
+👉 完全不需要知道帧类型
+你只关心：
+frame 出来了
+PTS 是多少
+数据在不在
+2️⃣ 但：FFmpeg 没有“禁止你知道”
+如果你出于分析 / 调试 / 高级控制目的，
+FFmpeg 仍然会把信息“泄露”给你一点点 👀
+例如，在 AVFrame 里：
+frame->pict_type   // I / P / B
+frame->key_frame   // 是否关键帧
+
+这意味着：
+编码层对你来说是“默认不可见，但并非不可观察”。
+📌 这是一个非常成熟的设计取舍。
+三、为什么 FFmpeg 不鼓励你“依赖帧类型”？🧨
+因为这是极其不稳定的抽象：
+不同 codec 定义不同
+硬解不一定暴露完整信息
+某些格式根本没有 B 帧
+未来 codec（AV1）语义更复杂
+👉 一旦 SDK 逻辑依赖 I/P/B，你就把自己绑死在编码细节上了。
+成熟的 SDK 只依赖：
+AVFrame 是否 ready
+PTS 是否正确
+数据是否连续
+四、一个非常工程化的结论（你可以记住）🧩
+编码层是一个“你不需要理解其内部因果、
+但必须尊重其时间行为”的黑盒。
+你不需要知道“为什么现在是 B 帧”，
+但你必须接受“现在不能立刻给你 frame”。
+五、这对你后面做 SDK 意味着什么？🔧
+当你封装 SDK 时，正确的暴露方式是：
+❌ 不暴露 I / P / B
+❌ 不让用户参与解码时序
+✅ 只暴露：
+onFrame(AVFrame*)
+frame.pts
+frame.format / size
+📌 这是 FFmpeg API 想让你站的位置。
+六、学习检查点（一句话就够）⏸️
+请你用自己的话回答这一句：
+为什么在 SDK 设计中，“不知道这是 I/P/B 帧”反而是一件好事？
+下一步预告 🔭
+下一步我们终于要把“时间”这根线完全拉直：
+PTS / DTS / time_base
+——为什么 frame 出现的顺序、显示的顺序、时间戳是三套坐标系
+这一步走完，你的解码器就真正“站得住”了 ⏱️
+先给一个结论（当作地图 🗺️）
+AVFrame 解码后，确实同时存在三套“顺序/坐标系”：
+解码顺序（decode order）
+显示顺序（display / presentation order）
+时间戳系统（PTS / DTS / time_base）
+一、AVFrame 是什么？它“属于哪一层”？
+你之前已经判断得很准了：
+AVFrame 是“编码层 → 原始媒体”的出口
+更精确一点说：
+AVPacket：
+👉 压缩数据（bitstream，属于编码层的输入）
+AVCodecContext 内部：
+👉 解码器私有的状态机（参考帧、重排缓冲、预测链）
+AVFrame：
+👉 已经解码完成的原始帧（YUV/RGB/PCM）
+⚠️ 但注意：
+“解码完成” ≠ “可以立刻显示”
+这就是三套顺序出现的根源。
+
+一句话先立住世界观 🌍
+
+AVFrame = 已解码的“原始媒体帧”，
+但它是“解码器视角的原始”，不是“你屏幕视角的原始”。
+
+一、AVFrame 到底“原始”在哪？
+✅ 原始的部分
+
+当 avcodec_receive_frame() 成功返回时：
+
+压缩已经结束
+（没有 H.264 / HEVC / VP9 bitstream 了）
+
+数据是：
+
+视频：YUV / RGB 平面或打包格式
+
+音频：PCM（int16 / float / planar）
+
+每个像素 / 采样点都可以直接访问
+
+所以在这个意义上：
+
+是的，它是“解码后的原始数据”
+
+❌ 不原始的部分（关键）
+
+它通常不是：
+
+屏幕能直接画的格式
+
+GPU 能直接贴的纹理
+
+连续内存的一整张图
+
+固定颜色空间
+
+固定坐标原点
+
+① 转换编码格式（Transcode）🔥
+
+比如：
+
+H.265 → H.264
+
+VP9 → AV1
+
+H.265 10bit → H.265 8bit
+
+👉 必须：解码 → 原始帧 → 再编码
+
+这是物理定律级别的，不是 FFmpeg 的限制。
+
+② 只转换容器格式（Remux / Repackage）📦
+
+比如：
+
+MP4 → MKV
+
+TS → MP4
+
+FLV → MP4
+
+👉 完全不需要解码，也不需要 AVFrame
+容器层 packet
+   ↓ demux
+解码器
+   ↓
+AVFrame（YUV / PCM）
+   ↓
+编码器
+   ↓
+新 packet
+   ↓ mux
+新容器
+av_read_frame()
+avcodec_send_packet()     // 解码
+avcodec_receive_frame()   // 得到 AVFrame
+
+avcodec_send_frame()      // 编码
+avcodec_receive_packet() // 得到新 packet
