@@ -1,0 +1,12 @@
+熟练掌握: C/C++, Python, Typescript, ROS1, React.
+熟练掌握: Linux下C++软件开发，常见的Linux命令.
+熟练掌握: Linux下多线程和多进程编程,三种多路复用, 熟悉Git命令. 
+熟悉: ADAS仿真控制软件架构.
+熟悉: 爱立信5G/4G移动通信基站的硬件架构和软件架构.
+熟练掌握: Socket 网络编程, TCP/IP网络协议栈.
+熟练掌握: ProtoBuffer和RapidJson序列化框架.
+熟练掌握: QT框架, 常用组件, 信号和槽机制. 
+熟练掌握: Gtest/Gmock框架和单元测试, 
+熟练掌握: 常用的数据结构(栈, 队列, 链表, 二叉树)和常见算法.
+熟练掌握: 常见设计模式(单例模式、工厂模式).
+熟练掌握: Flask框架, Flask SQLAlchemy, 熟悉MySQL数据库.
