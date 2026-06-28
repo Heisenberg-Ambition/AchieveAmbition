@@ -1,1 +1,1 @@
-担任软件开发工程师，负责爱立信5G/4G通信基站OAM软件（CAT部分和RadioSW部分）的功能开发和系统维护。负责CAT模块和RadioSW模块的新功能开发，解决基站上的Trouble Shooting和突发情况。优化和完善Java编写的自研系统测试框架，负责新开发功能的Node测试及代码集成测试，显著提升基站软件性能。
+担任爱立信5G/4G基站OAM软件开发工程师, 负责CAT(RRC)及Radio Software 模块的功能开发、系统维护与故障排查, 解决基站上的Trouble Shooting, 优化和完善Radio Java自研系统测试框架, 负责新开发功能的Node测试及代码集成测试.
