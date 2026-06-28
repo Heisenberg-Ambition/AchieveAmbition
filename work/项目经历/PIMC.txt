@@ -4,10 +4,9 @@
 负责爱立信5G/4G基站OAM软件CAT模块中PIMC(无源互调抵消)功能的开发与维护, 实现基于License校验的PIMC状态管理、载波功率算法处理及跨模块Protobuf通信, 保障Radio射频单元干扰抑制功能的稳定运行.
 
 项目实现:
-
 跨模块通信与权限控制: 实现CAT模块对上层命令的License合法性校验, 通过后基于底层TCP消息框架向Radio单元发送Protobuf序列化请求, 确保控制指令的安全可靠下发.
 PIMC状态管理与算法处理: 获取Radio单元载波信息与功率数据, 经算法处理后动态控制PIMC开关状态, 并支持通过OAM命令实时查询与配置PIMC运行参数.
 全链路测试验证: 完成CAT模块C++功能编码、单元测试与集成测试, 执行完整的Node级系统测试, 确保PIMC功能在现网环境下的正确性与稳定性.
 
 技术栈:
-C++ | Protobuf | Google Test
+C++ | Protobuf | GTest

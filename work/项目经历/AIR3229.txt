@@ -9,4 +9,4 @@
 全链路测试与问题定位: 完成C++适配代码编写与UT, 集成测试及Node级系统测试, 结合测试框架日志快速定位并解决软硬件联调中的兼容性问题, 确保产品交付质量.
 
 技术栈:
-C++ | Java | Google Test | Protobuf
+C++ | Java | GTest | Protobuf
