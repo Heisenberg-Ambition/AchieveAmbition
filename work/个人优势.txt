@@ -14,6 +14,6 @@
 技能&技术栈
 语言与系统: C/C++, STL, Python, TypeScript, Linux多线程/多进程, 文件与I/O, 内存管理, 调试定位分析 
 框架与中间件: ROS1, React, Protobuf, TCP/UDP/HTTP, Qt, Socket, nlohmann/json, CAPL 
-自动驾驶相关: BAG/MCAP, Foxglove-SDK, FoxglvoeViz
+自动驾驶相关: Bag/MCAP, Foxglove-SDK, FoxglvoeViz
 开发工具: CMake, Git, LLDB, Nginx, Docker, SQLite,
-通信架构: 爱立信5G/4G移动通信基站的硬件架构和软件架构
+通信架构: 爱立信5G/4G移动通信基站的软件架构和硬件架构
