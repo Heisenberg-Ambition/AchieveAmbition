@@ -16,8 +16,8 @@
 
 2026年版本:
 
-语言与系统: C/C++, STL, Python, TypeScript, Linux多线程/多进程, 文件与I/O, 内存管理, 调试定位分析 
-框架与中间件: ROS1, React, Protobuf, gRPC, TCP/UDP/HTTP, QT, Socket, nlohmann/json, CAPL 
+语言与系统: C/C++, STL, Python, TypeScript, Linux多线程/多进程, 文件与I/O, 内存管理, Debug分析
+框架与中间件: ROS, React, Protobuf, gRPC, TCP/UDP/HTTP, QT, Socket, nlohmann/json, CAPL 
 自动驾驶相关: Bag/MCAP, Foxglove-SDK, FoxglvoeViz
-开发工具: CMake, Git, LLDB, Nginx, Docker, SQLite,
-通信架构: 爱立信5G/4G移动通信基站的软件架构和硬件架构
+开发工具: CMake, Git, LLDB, Nginx, Docker, SQLite
+通信基站架构: Ericsson 5G/4G移动通信基站软件架构和硬件架构

@@ -1,0 +1,71 @@
+C/C++开发工程师|自动驾验
+男|13
+件/嵌入式方向
+2年+C++开发经验
+技能&技术栈
+语言与系统通信与中间件自动驾驶数据工程与平台
+协作与语言
+C/C++、STL、Python、Shell;Linux多线程/多进程、文件与V/O、内存管理、调试定位。
+Fast DDS, ROS2, Protobuf, MQTT, CAN, DBC, TCP/UDP/HTTP, Socket.
+MCAP/MBAG, Occupancy Grid, CostMap、 OpenCV、 YOLO, SORT.
+Docker, Docker Compose. CMake. Git. GDB. SQLite, Qt/QML. WebSocket.
+Grafana.
+Jira、Confluence、技术文档编写;英语CET-4,能够阅读英文技术资料。
+工作经验
+·负责自
+有限公司|C++开发工程师/自动驾驶数据平台方向
+2026.01 -至今
+8据处理、语义自动标注、感知回放与闭环验证相关平台开发，支撑采集包解析、数据质检、BEV
+可视化与uritime验证，
+·基于Python/C++构建自动标注与回放工具链,围绕 MCAP/MBAG、Protobuf、ROS2 Topic、Occupancy
+Grid、CostMap等数据结构完成模块设计与工程实现。
+·开发Web诊断页面、WebSocket 回放链路、批处理脚本和Docker化运行环境，提升离线数据分析、问题复现和
+跨环境部署效率。
+异常降级策略
+参与平台测试与稳定性建设，补充单元测试、集成测试、运行时健康检查、日志诊断、Prometheus/Grafana监控和
+科技有限公司|C++/嵌入式软件工程师
+2025.01 - 2025.12
+·负责智能驾驶底层执行软件与座舱嵌入式功能开发，覆盖车辆控制驱动、CAN/DDS通信、状态机、HMI联调与测试
+·基于C++、Fast DDS、Protobuf、DBC完成CAN信号解析转发、控制指令映射、CRC校验、超时容错与日志诊
+断。
+开发TCP/MQTT/UDP等协议适配和Mock测试能力，支持定位、感知、云控等数据注入与模块级验证，提升联调
+效率。
+·参与Qt/QML座舱HMI、音频告警、设备认证及视觉/雷达感知逻辑开发，优化嵌入式平台运行稳定性。
+项目经验
+Autolabeling自动标注与BEV诊断平台
+项目描述:面向自动驾驶离线数据构建自动标注与BEV诊断平台，读取..
+2026.01 - 至今
+语义消息，生成4D障碍物、
+地图元素、自车位姿锚点与相机投影图，提供BEV可视化与诊断报表，用于离线数据质险、可视化分析和批量处理。
+·设计多阶段数据处理流程，完成语义topic 读取、时间轴对齐、坐标桥Object4D/MapElement4D/PoseAnchor构
+建与JSONL/CSV输出。
+·实现相机标定读取、去畸变、3Dbbox与地图元素投影，支持前视相机调试图、BEV俯视图和多源数据一致性验
+证。
+·开发 Starlette Web查看服务，提供场景发现、统计看板、BEV Viewer、报告页和pipeline触发能力，方便快速定
+位数据问题。
+·补充Minl0拉取/上传、批处理、性能诊断、异常降级与输出目录规范，提升采集包离线处理的可复现性和工程稳定
+性。
+AD-Replay自动驾驶感知回放与闭环验证平台
+2026.01-至今
+项目描述:面向自动驾驶离线语义数据构建感知回放与闭环验证平台，通过 ReplayEngine、Occupancy/CostMap、
+A* Planner、Control Mock、ROS2 Topic与Web BEV实现从数据回放到规划控制验证的工程闭环.
+·设计端到端闭环链路:离线语义数据 Timelinelndex 时间轴回放Occupancy Grid CostMapA* Planner
+- Pure Pursuit 控制 BEV /WebSocket/ROS2输出。
+核心模块，支持倍速、循环、丢帧策略与运行时状态诊断;
+·使用 Python  ReplayEngine, Timelinelndex, Topic Manager, Runtime Node 与 WebSocket Gateway 等
+·使用C++17重写replay、occupancy、planner 等性能敏感模块,CMake +GTest 构建,pybind11暴露Python
+接口复用。
+·实现Occupancy Grid、CostMap Builder、A*八方向路径规划与Pure Pursuit 控制 mock，将感知结果转化为规
+划/控制可消费的数据结构。
+·搭建 Canvas BEV Viewer,多图层叠加渲染 Grid、 Occupancy、CostMap、Path、Map、Objects、Ego等回放效
+果，辅助定位时序一致性与感知消费问题。
+个人项目
+Mini-ROS2 Runtim
+2026.02-2026.5
+项目描述:轻量级类ROS2通信中间件，覆盖发布-订阅、RPC、状态机、参数管理、录制回放与传输层等核心机制，
+用于理解自动驾驶中间件的调度与通信原理。
+·基于C++17模板与variant实现类型安全的Pub/Sub，支持QoS流控与零拷贝传递。
+·设i SingleThread/MultiThread Executor, CAS 无锁 CallbackGroup 控制并发策略.
+·基于现有 Topic 搭建 Service(RPC)与Action(长任务状态机),纯 promise/future 匹配请求-响应.
+·实现 LifecycleNode 状态机、ParameterManager 类型安全参数系统、Graph拓扑发现。
+·自研MiniBag录制回放引擎、UDP组播传输层、WaitSet多事件源调度执行器。
