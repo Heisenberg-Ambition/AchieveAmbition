@@ -1,12 +1,10 @@
-虹软科技 ADAS数据可视化与MCAP格式转换工具开发
+虹软科技 ADAS数据预处理及可视化
 
-项目描述:
-负责自动驾驶多模态数据可视化桌面工具及MCAP格式转换模块的开发, 实现视频、算法、雷达/CAN信号等数据的回放与BEV投影/反投影可视化分析; 以及预处理结果至MCAP格式的转录模块, 支持视频压缩与感知/算法数据结构化封装, 兼容Foxglove仿真前端使用.
+项目描述: 负责ADAS感知数据预处理及可视化验证平台和MCAP格式转换模块的开发, 实现视频图像, 感知数据, 雷达信号, CAN信号的BEV投影/PV反投影. 以及预处理数据到MCAP格式的转录模块. 
 
-项目实现:
-可视化平台: 基于tkinter+ttkbootstrap构建桌面GUI, 集成OpenCV与Matplotlib实现视频PV投影/反投影、BEV视角渲染、目标检测与车道线识别结果的叠加显示, 支持CAN日志解析与事件标注.
-MCAP转录模块: 作为独立模块将预处理TXT结果转换为MCAP格式, 对原始视频进行编码压缩以优化IO性能与存储体积,将车道线、障碍物、控制信号等结构化数据按MCAP规范封装.
-BEV投影/反投影: 实现障碍物与车道线从自车坐标系到BEV视角的实时投影变换, 同时在原始视频帧上完成感知结果的反投影叠加.
+- 可视化平台: 基于Python ttk构建桌面GUI, 集成OpenCV与Matplotlib实现Bev投影/PV反投影, 障碍物与车道线数据的叠加显示, 支持CAN日志解析显示与实时问题标注.
+- 预处理: 将CAN信号/感知数据从视频流里逐帧解析, 序列化为Json结构, 并对时间戳进行二次排序.
+- MCAP转录模块: 预处理结果转换为MCAP格式, 视频流转为CompressedImage, 车道线, 障碍物和雷达信号转为MarkerArray, 并作相应的PV反投影处理.
 
 技术栈:
-Python| C++ | tkinter | MCAP | Protobuf | cantools
+Python | ttk | C++ | MCAP | Protobuf | cantools
