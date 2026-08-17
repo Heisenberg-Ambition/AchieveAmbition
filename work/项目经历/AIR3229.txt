@@ -1,11 +1,6 @@
-5G基站 M-MIMO Radio AIR3229 软件层适配
-
 项目描述:
 负责爱立信M-MIMO Radio AIR3229的RadioSW层软件适配、硬件配置及数据库更新, 完成Java SST测试框架的自测验证, 完成全新ASIC硬件架构下的端口映射重构与代码优化适配.
-
 - 硬件架构适配与端口映射: 针对ASIC芯片开发软件适配层, 建立虚拟端口映射到物理天线端口与B40 B78的动态映射关系.
 - 全链路测试与Bug定位: 完成C++适配代码编写, 和软件数据库更新, 完成UT覆盖率, 系统集成Test及Node Test.
-- 测试框架SST维护: 排查并修复SST测试框架中因新架构引入的Bug, 优化测试用例执行逻辑, 响应Trouble Shooting.
-
-技术栈:
-C++ | Java | GTest | Protobuf
+- 测试框架SST维护: 排查并修复SST测试框架中的Bug, 优化测试用例执行逻辑, 响应Trouble Shooting.
+技术栈: C++ | Java | GTest | Protobuf

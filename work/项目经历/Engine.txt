@@ -23,12 +23,10 @@
 
 虹软科技 ADAS规划控制仿真平台  
 项目描述: 面向NOA规控算法的数据回灌开环/闭环可视化平台, 通过Foxglove, Control Mock, ROS1 Topic与BEV/PV投影实现从数据回放到规划控制验证和评价对比的工程闭环. 
-
 - NOA闭环链路: 感知数据 -> 转换处理 -> NOA规划 -> 闭环更新LocalMap及障碍物 -> 实时可视化/Bag包持久化. 
 - 模拟真实控车: NOA规划路径 -> Controler -> gRPC -> CarSim/2-DOFBicycleModel -> 模拟真实控车.
 - 自动化评价系统: 模块化开环/闭环评价算子, 对每个场景的Clip进行仿真评价, 统计整体仿真结果, 输出单版本/NOA版本对比报告.
-- Foxglove二次开发, 构建跨平台可视化界面, 重构消息时间轴, 支持远程服务器数据Fetch, 实现S-T图, 算法数据动态监控, 路径轨迹图, 支持实时数据可视化与Bag包回放分析.
-
+- Foxglove二次开发, 构建跨平台可视化界面, 重构消息时间轴, 支持远程服务器数据Fetch, 实现S-T图, 算法数据动态监控, 路径轨迹图, 支持实时数据可视化与Bag包回放分析.0
 技术栈:
 - 后端: ROS Noetic | C++17 | CMake | gRPC |Eigen | Boost
 - 前端: React | TypeScript | Electron | Foxglove-SDK | Nignx

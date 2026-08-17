@@ -1,11 +1,8 @@
-
 虹软科技 机器人导航规划控制仿真平台  
 项目描述: 面向机器人导航规控算法的开环/闭环可视化平台, 通过NaviInput, ObstacleMock, TF变换, PCD和Occupancy Grid实时切换实现算法的快速闭环验证. 
-
-闭环: 实现前端Navi和模拟障碍物实时下发, 接入导航算法和规控算法, 驱动机器人完成闭环移动.
-模型: 通过TF坐标变换+a2_description, 展示机器人真实运动方式.
-可视化: 根据地图数据切换点云和Occupancy Grid, 并将数据做BEV投影, 实时前端可视化并记录为mcap格式.
-
+- 闭环链路: 实现前端Navi和模拟障碍物实时下发, 接入导航算法和规控算法, 驱动机器人完成闭环移动.
+-  urdf模型: 通过TF坐标变换+a2_description, 展示机器人真实运动方式.
+- 可视化: 根据地图数据切换点云和Occupancy Grid, 并将数据做BEV投影, 实时前端可视化并记录为mcap格式.
 技术栈:
 - 后端: ROS2 | C++17 | CMake
 - 前端: React | TypeScript

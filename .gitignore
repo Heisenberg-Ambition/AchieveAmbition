@@ -39,6 +39,9 @@ testRosPy/
 testScript/
 testZMQ/
 testCoreDump/
+.venv/
+.vscode/
+
 temp*
 a.out
 *.db
@@ -68,3 +71,7 @@ a.out
 *.proto
 *.cc
 
+
+
+# EXE
+video_parser
