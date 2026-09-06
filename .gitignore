@@ -70,7 +70,7 @@ a.out
 *.h265
 *.proto
 *.cc
-
+*.gif
 
 
 # EXE

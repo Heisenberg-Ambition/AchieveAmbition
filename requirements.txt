@@ -1,0 +1,70 @@
+flask
+numpy
+tdqm
+# numba
+qrcode
+# onnx
+optuna
+pandas
+protobuf
+pydantic
+pyyaml
+# torch
+# torchmetrics
+transformers
+xlrd
+openpyxl
+pygal
+pyquery
+webscraping
+bs4
+selenium
+xlrd
+openpyxl
+# pygame>=2.6.0
+pyttsx3
+PyQt5
+opencv-python
+Pillow
+setuptools
+utils
+# argparse
+# pynput
+xlwt
+Scrapy
+pyquery
+requests
+# pychorus
+bs4
+beautifulsoup4
+webscraping
+lxml
+selenium
+pygal
+pyppeteer
+scrapy
+setuptools
+passlib
+moment
+grab
+pyttsx3
+# pygame
+biopython
+# ollama_gui
+# ollama-python
+chardet
+# PySide6
+itchat # 开源的微信API
+psutil
+# manim
+
+
+
+
+
+
+
+
+
+
+
