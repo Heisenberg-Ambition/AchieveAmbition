@@ -1,0 +1,175 @@
+
+救赎之道, 就在其中Salvationlay within
+
+clangother.cc -lstdc++
+
+clangother.cc 会报错, clang默认的不是标准的c++库
+
+静态快  动态准  常量修
+重解慎  C风格   少沾身static_castdynamic_castconst_castreinterpret_cast
+
+静态分析不会详细展开模板, 需要在编译时模板展开时才会报错.
+
+"如果一个类有任何虚函数，它就应该有虚析构函数。"
+            —— Scott Meyers, Effective C++ Item 7
+
+类型 + 花括号 {} 进行 列表初始化 (list-initialization). 会禁止窄化转换, 有 initializer_list 构造函数, 会优先匹配.
+类型 + 圆括号 () 调用构造函数. 允许窄化转换, 不会触发 initializer_list 构造函数
+单花括号{}是隐式构造编译器类型推导 + 列表初始化. 会禁止窄化转换, 有 initializer_list 构造函数, 会优先匹配.
+
+typedef属于C语言, 使用 using
+
+输入输出流
+<iostream>: 提供标准输入输出流(如 cin, cout, cerr 等)的定义和操作. 
+
+输入输出流的格式控制工具
+<iomanip> 是 C++ 的标准头文件, 提供了(I/O manipulators), 常用于控制数字, 字符串在 cout 或 cin 中的显示方式, 比如设置宽度, 对齐方式, 进制, 浮点数精度等.
+
+输入输出文件流
+<fstream>: 提供文件输入输出流(如 std::ifstream, std::ofstream, std::fstream). 
+
+C标准库的输入输出
+<cstdio>: 打印和文件操作(如 fopen, fclose, fread, fwrite 等). 
+
+字符串处理
+<string>: 提供标准的字符串类 std::string 及其相关操作. 
+
+容器
+<vector>: 提供动态数组容器, std::vector. 
+<list>: 提供双向链表容器, std::list.
+<deque>: 提供双端队列容器, std::deque. 
+<map>: 提供关联容器容器, std::map(键值对集合). 
+<set>: 提供集合容器, std::set(唯一元素的集合, 自动排序). 
+<stack>: 栈适配器, std::stack<std::string, std::vector<std::string>>
+<queue>: 单端队列适配器, std::queue
+
+算法
+<algorithm>: 提供一系列标准的算法, 如排序, 查找, 复制, remove()等.
+
+数值计算算法
+<numeric> 是 C++ 标准库中提供数值计算算法的头文件，支持对容器或区间进行求和, 内积, 部分和, 相邻差等操作.
+
+函数 
+<functional>: 提供函数对象, 绑定器(std::bind())和函数适配器(std::function<>, std::mem_fn())等. 
+
+数学和随机数
+<cmath>: 提供数学函数, 如 sin, cos, sqrt 等. 
+<random>: 提供随机数生成器和分布. 
+
+时间计时
+<chrono>: 提供时间相关的功能, 包括时钟, 时间点, 持续时间等. 属于std::chrono命名空间.
+
+时间相关
+<ctime>: 相当于C语言的<time.h>
+
+多线程
+<thread>: 提供创建和管理线程的功能, C++的标准库. 
+<jthread>: C++20, 提供了一个更高级的线程类, 支持自动资源管理和异常安全, 优雅的协作式停止.
+<pthread.h>: C/POSIX, POSIX 细粒度控制与系统编程
+<mutex>: 提供互斥锁, 用于线程同步. 
+<future>: C++11, 用于表示一个异步(并发)操作的结果. std::future, std::promise, std::shared_future, std::packaged_task.
+<atomic>: C++11, 用于实现原子操作. 
+<condition_variable>:  C++11, . 条件变量是一种同步原语, 用于阻塞一个线程, 直到另一个线程通知它某个条件已经满足. 
+
+智能指针
+<memory>: 提供智能指针, 如: std::shared_ptr, std::unique_ptr. 
+
+其他常用头文件
+<cassert>: assert.h的 C++ 版本, 提供断言宏 assert, 用于进行调试检查. 
+<cstdlib>: <stdlib.h>头文件的 C++ 版本, 提供通用工具函数, 如执行bash命令(system()), 动态内存管理, 程序退出, 环境管理, 随机数生成, 清理函数, 环境变量, 整数字符串转化等. 
+<cstdio>: <stdio.h>头文件的 C++ 版本, C 标准库中的输入和输出函数
+<cstring>: <string.h>头文件的 C++ 版本, 处理C风格字符串(空字符'\0'结尾的字符数组)的函数. 
+
+轻量级视图
+<string_view>: C++17引入, 提供对字符串的轻量级视图, 支持非拥有的字符串视图, 不能修改字符串内容, 需要自己管理字符串的生命周期.
+
+协程
+<coroutine>: C++20引入, 支持协程的语法和库, 使得异步编程更加简洁.
+
+正则表达式
+<regex>: C++11引入, std::regex, regex_search(), regex_match(). 
+
+类型支持
+<type_traits>: 提供类型检测与操作的模板类, 允许进行类型特性查询和修改. 
+
+类型显示
+<typeinfo>: typeid(matches[1]).name(). 
+
+通用的工具类和函数
+<utility> 是 C++ 标准库中的头文件, 提供了一些, 常用于值交换, 移动语义, 完美转发, 键值对存储等场景.
+
+类型安全的类型擦除容器
+<any>: C++17引入, 以存放任意类型的值(类型安全的类型擦除容器), 类似于"万能容器". // * std::cout << std::any_cast<int>(a) << std::endl; if (a.type() == typeid(std::string))
+
+"可有可无"的值
+<optional>: C++17引入, std::optional, 用于表示一个可能存在或不存在的值. 例如, std::optional<int> opt; opt.has_value() 检查是否有值, opt.value() 获取值. 空值用 std::nullopt 表示. 
+
+范围(Ranges)库
+<ranges>: C++20 引入的一个标准库头文件, 引入了一种新的方式来处理序列和算法, 范围库的核心概念包括范围(range), 视图(view)和适配器(adapter). 
+
+字符到数值和数值到字符的转换
+<charconv>: C++17引入, 这包含了std::from_chars 和 std::to_chars 函数, 用于在不依赖区域设置的情况下进行字符和数值之间的转换. 
+
+C++的errno标准库头文件
+<cerrno>: 对应 C 语言的 <errno.h>. 当标准库或系统调用发生错误时, 会设置 errno, 用于指示错误类型. 不需要声明.
+            std::cout << "打开文件失败, errno=" << errno << ", 原因: " << std::strerror(errno) << std::endl;
+
+处理系统错误和错误代码
+<system_error>: C++11 标准中引入, std::error_code, std::error_condition, std::system_error 等类, 以及 std::errc 枚举, 用于表示和处理系统级别的错误. 
+
+处理信号
+<csignal>: 处理信号的功能. 信号是一种异步事件通知机制, 允许操作系统或其他进程向当前进程发送通知, 以便它可以处理特定的事件(例如, 用户中断, 非法内存访问等). 
+
+包含了POSIX 线程(pthread)库相关的常量和函数, 用于多线程编程, 是C语言的标准库.
+<pthread.h>
+
+定义访问操作系统 API 的常见函数, 包括文件操作, 进程控制和更多低级操作. 
+<unistd.h>
+
+<dlfcn.h> 是 Linux/Unix 系统下用来做动态链接库（shared library）加载和操作的头文件, 也就是可以在运行时打开.so 文件, 查找符号, 调用函数, 关闭库.
+
+定义文件控制的常量和函数原型, 包括文件描述符操作和文件锁定. 
+<fcntl.h>
+
+<sys/...> 下的头文件是为 Unix 系统编程提供的一组头文件, 这些头文件通常包含系统调用和设备接口的定义和声明. 
+它们提供对低级操作系统功能的直接访问, 通常用于编写系统级应用程序或进行系统编程: 
+
+定义数据类型(pid_t, uid_t, gid_t), 通常用于配合其他sys/...头文件. 
+<sys/types.h>
+
+文件状态操作函数: stat: 获取文件状态信息. fstat: 获取文件描述符关联的文件状态信息. lstat: 获取符号链接状态信息. 
+<sys/stat.h>
+
+定义等待进程结束的函数和宏, wait(): 等待任何子进程终止. waitpid(): 等待指定子进程终止. 
+<sys/wait.h>
+
+定义处理信号的函数和宏
+<signal.h>
+
+定义网络编程的各种数据结构和函数
+<sys/socket.h> 和 <netinet/in.h>
+
+select系统调用的常量和函数, 用于实现select方式的I/O 多路复用
+<sys/select.h>
+
+用于 I/O 事件通知的poll 接口. 
+<sys/poll.h>
+
+用于 Linux(有且仅有)上高效 I/O 事件通知的epoll接口
+<sys/epoll.h>
+
+定义了内存映射相关的常量和函数, 主要用于文件和内存之间的映射操作. mmap: 将文件或设备映射到内存. munmap: 解除文件或设备与内存的映射关系. 
+<sys/mman.h>
+
+定义了时间相关的常量和函数
+<sys/time.h>: gettimeofday()提供的时间精度可以达到微秒级, 但实际精度可能受限于系统时钟的分辨率. settimeofday: 设置当前时间. 
+
+<sys/resource.h>
+这个头文件定义了获取和设置进程资源限制的函数和常量. 
+
+<sys/ioctl.h>
+这个头文件定义了设备控制的常量和函数, 主要用于对设备进行输入/输出控制操作. 
+
+<arpa/inet.h>
+是一个在 Unix/Linux 系统中用于网络编程的头文件, 主要提供了用于处理 IP 地址的函数和宏. 
+这些函数和宏通常用于将 IP 地址在文本字符串和二进制格式之间进行转换.
