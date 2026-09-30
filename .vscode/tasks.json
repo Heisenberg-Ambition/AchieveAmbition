@@ -1,0 +1,30 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "move onnx lib",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "cp ${workspaceFolder}/src/arcsoft_ads_pkg/onnxruntime/lib/libonnxruntime.*  ${workspaceFolder}/Debug/lib ",
+            ]
+        },
+        {
+            "label": "source setup",
+            "type": "shell",
+            "command": "source",
+            "args": [
+                "${workspaceFolder}/devel/setup.bash",
+            ]
+        },
+        {
+            "label": "preLaunchTask",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "${workspaceFolder}/preLaunchTask.sh",
+            ]
+        }
+    ]
+}

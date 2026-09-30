@@ -1,0 +1,52 @@
+[
+  {
+    "directory": "/home/shihao/repo/study/ffmpegTest/build",
+    "command": "/usr/bin/c++   -g -std=gnu++20 -o CMakeFiles/video_parser.dir/src/src/main.cpp.o -c /home/shihao/repo/study/ffmpegTest/src/src/main.cpp",
+    "file": "/home/shihao/repo/study/ffmpegTest/src/src/main.cpp"
+  },
+  {
+    "directory": "/home/shihao/repo/study/ffmpegTest/build",
+    "command": "/usr/bin/c++   -g -std=gnu++20 -o CMakeFiles/video_parser.dir/src/src/video_to_jpeg.cpp.o -c /home/shihao/repo/study/ffmpegTest/src/src/video_to_jpeg.cpp",
+    "file": "/home/shihao/repo/study/ffmpegTest/src/src/video_to_jpeg.cpp"
+  },
+  {
+    "directory": "/home/shihao/repo/study/ffmpegTest/build",
+    "command": "/usr/bin/c++   -g -std=gnu++20 -o CMakeFiles/video_parser.dir/src/src/video_to_nv12.cpp.o -c /home/shihao/repo/study/ffmpegTest/src/src/video_to_nv12.cpp",
+    "file": "/home/shihao/repo/study/ffmpegTest/src/src/video_to_nv12.cpp"
+  },
+  {
+    "directory": "/home/shihao/repo/study/ffmpegTest/build",
+    "command": "/usr/bin/c++   -g -std=gnu++20 -o CMakeFiles/video_parser.dir/src/src/common.cpp.o -c /home/shihao/repo/study/ffmpegTest/src/src/common.cpp",
+    "file": "/home/shihao/repo/study/ffmpegTest/src/src/common.cpp"
+  },
+  {
+    "directory": "/home/shihao/repo/study/ffmpegTest/build",
+    "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK  -g -std=gnu++20 -o CMakeFiles/server.dir/src/src/server.cpp.o -c /home/shihao/repo/study/ffmpegTest/src/src/server.cpp",
+    "file": "/home/shihao/repo/study/ffmpegTest/src/src/server.cpp"
+  },
+  {
+    "directory": "/home/shihao/repo/study/ffmpegTest/build",
+    "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK  -g -std=gnu++20 -o CMakeFiles/client.dir/src/src/client.cpp.o -c /home/shihao/repo/study/ffmpegTest/src/src/client.cpp",
+    "file": "/home/shihao/repo/study/ffmpegTest/src/src/client.cpp"
+  },
+  {
+    "directory": "/home/shihao/repo/study/ffmpegTest/build",
+    "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK  -g -std=gnu++20 -o CMakeFiles/server_async.dir/src/src/server_async.cpp.o -c /home/shihao/repo/study/ffmpegTest/src/src/server_async.cpp",
+    "file": "/home/shihao/repo/study/ffmpegTest/src/src/server_async.cpp"
+  },
+  {
+    "directory": "/home/shihao/repo/study/ffmpegTest/build",
+    "command": "/usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK  -g -std=gnu++20 -o CMakeFiles/client_async.dir/src/src/client_async.cpp.o -c /home/shihao/repo/study/ffmpegTest/src/src/client_async.cpp",
+    "file": "/home/shihao/repo/study/ffmpegTest/src/src/client_async.cpp"
+  },
+  {
+    "directory": "/home/shihao/repo/study/ffmpegTest/build",
+    "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_NETWORK_LIB -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -isystem /usr/include/x86_64-linux-gnu/qt5/QtNetwork -g -fPIC -std=gnu++20 -o CMakeFiles/server_qt5.dir/src/src/server_qt5.cpp.o -c /home/shihao/repo/study/ffmpegTest/src/src/server_qt5.cpp",
+    "file": "/home/shihao/repo/study/ffmpegTest/src/src/server_qt5.cpp"
+  },
+  {
+    "directory": "/home/shihao/repo/study/ffmpegTest/build",
+    "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_NETWORK_LIB -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -isystem /usr/include/x86_64-linux-gnu/qt5/QtNetwork -g -fPIC -std=gnu++20 -o CMakeFiles/client_qt5.dir/src/src/client_qt5.cpp.o -c /home/shihao/repo/study/ffmpegTest/src/src/client_qt5.cpp",
+    "file": "/home/shihao/repo/study/ffmpegTest/src/src/client_qt5.cpp"
+  }
+]

@@ -1,0 +1,65 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Engine Node LLDB Debug",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/Debug/lib/engine/engine_node",
+      "args": [
+        "_param_file:=${workspaceFolder}/Debug/share/engine/config/simulation.yaml"
+      ],
+      "cwd": "${workspaceFolder}",
+      "stopOnEntry": false,
+      "env": {
+        "LD_LIBRARY_PATH": "${workspaceFolder}/Debug/lib:${env:LD_LIBRARY_PATH}"
+      },
+      "preLaunchTask": "preLaunchTask"
+    },
+    {
+      "name": "Algo Plugin Node LLDB Debug",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/Debug/lib/algorithm_plugins/algorithm_plugins_node",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "stdio": [
+        null,
+        "algo_node_output.log"
+      ],
+      "stopOnEntry": false,
+      "env": {
+        "LD_LIBRARY_PATH": "${workspaceFolder}/Debug/lib:${env:LD_LIBRARY_PATH}"
+      },
+      "preLaunchTask": "preLaunchTask",
+      // "postDebugTask": "postDebugTask"
+    }
+  ]
+}
+// launch.json常用字段详解
+// 字段名	类型	说明
+// name	string	配置名称，显示在调试器菜单中
+// type	string	调试器类型，如 cppdbg（C++）、python、node 等
+// request	string	调试请求类型：launch（启动）或 attach（附加到已有进程）
+// program	string	要调试的程序路径（可用变量如 ${file}）
+// args	array	传递给程序的命令行参数
+// cwd	string	当前工作目录
+// env	object	环境变量设置，如 { "PATH": "/usr/bin" }
+// envFile	string	指定 .env 文件路径，自动加载环境变量
+// stopAtEntry	boolean	是否在程序入口处暂停
+// externalConsole	boolean	是否使用外部终端窗口
+// internalConsoleOptions	string	控制内部控制台行为：neverOpen、openOnSessionStart 等
+// preLaunchTask	string	调试前执行的任务（如编译, 移动onnx lib）
+// postDebugTask	string	调试结束后执行的任务
+// MIMode	string	调试器模式：lldb、gdb、msvc（用于 cppdbg 类型）
+// miDebuggerPath	string	指定调试器路径，如 /usr/bin/lldb
+// setupCommands	array	启动调试器时执行的命令（如启用 pretty-printing）
+// console	string	控制台类型：integratedTerminal、internalConsole、externalTerminal
+// sourceMaps	boolean	是否启用源码映射（用于 JS/TS 调试）
+// outFiles	array	编译后的输出文件路径（用于源码映射）
+// showAsyncStacks	boolean	是否显示异步调用栈
+// justMyCode	boolean	是否只调试用户代码（忽略库代码）
+// skipFiles	array	跳过调试的文件或路径
+// smartStep	boolean	智能跳过无关代码
+// symbolSearchPath	string	指定符号文件搜索路径
+// logging	object	控制调试器日志输出，如 { "engineLogging": true }

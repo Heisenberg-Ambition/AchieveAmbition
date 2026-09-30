@@ -1,0 +1,30 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "defines": [],
+            "compilerPath": "/usr/bin/g++-13",
+            "cStandard": "c23",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-gcc-x64",
+            "includePath": [
+                "${workspaceFolder}",
+                "${workspaceFolder}/",
+                "/usr/include/x86_64-linux-gnu/qt6",
+                "/usr/include/x86_64-linux-gnu/qt6/QtCore",
+                "/usr/include/x86_64-linux-gnu/qt6/QtNetwork",
+                "/usr/include/x86_64-linux-gnu/qt6/QtSql",
+                "/usr/include/x86_64-linux-gnu/qt6/QtTest",
+                "/usr/include/x86_64-linux-gnu/qt6/QtXml",
+                "/usr/include/x86_64-linux-gnu/qt6/QtQml",
+                "/usr/include/x86_64-linux-gnu/qt6/QtQuick",
+                "/usr/include/x86_64-linux-gnu/qt6/QtGui",
+                "/usr/include/x86_64-linux-gnu/qt6/QtWidgets",
+                "/usr/include/x86_64-linux-gnu/qt6/QtMultimedia",
+                "/usr/include/x86_64-linux-gnu/qt6/*",
+                "/usr/local"
+            ]
+        }
+    ],
+    "version": 4
+}
